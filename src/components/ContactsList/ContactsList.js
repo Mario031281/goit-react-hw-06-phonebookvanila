@@ -1,15 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   ContactListContainer,
   Item,
   List,
   Button,
 } from './ContactsList.styled';
+import { selectContacts, selectFilter } from 'redux/selectors';
 import { deleteContact } from 'redux/contactsSlice';
 
 export const ContactsList = () => {
-  const contacts = useSelector(state => state.contacts);
-  const searchQuery = useSelector(state => state.filter.filter);
+  const contacts = useSelector(selectContacts);
+  const searchQuery = useSelector(selectFilter);
   const dispatch = useDispatch();
   const filteredContacts = contacts.filter(contact => {
     const name = contact.name || '';

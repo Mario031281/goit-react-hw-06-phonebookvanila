@@ -1,9 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
-import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 import { Label, Title, Button } from './Form.styled';
 import { addContact } from 'redux/contactsSlice';
+import { selectContacts } from 'redux/selectors';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -17,6 +18,23 @@ const SignupSchema = Yup.object().shape({
 });
 export const FormContact = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+  const handleSubmit = (values, actions) => {
+    const isInContacts = contacts.some(
+      contact =>
+        contact.name.toLowerCase() === values.name.toLowerCase() ||
+        contact.number === values.number
+    );
+
+    if (isInContacts) {
+      toast.error('This contact already exists');
+    } else {
+      dispatch(addContact(values));
+      actions.resetForm();
+      const updetContacts = [...contacts, values];
+      localStorage.setItem('contacts', JSON.stringify(updetContacts));
+    }
+  };
   return (
     <div>
       <Title>Phonebook</Title>
@@ -26,10 +44,7 @@ export const FormContact = () => {
           number: '',
         }}
         validationSchema={SignupSchema}
-        onSubmit={(values, actions) => {
-          dispatch(addContact(values));
-          actions.resetForm();
-        }}
+        onSubmit={handleSubmit}
       >
         {({ values }) => (
           <Form>
