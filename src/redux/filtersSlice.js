@@ -1,10 +1,12 @@
+import { TYPES } from './types';
+
 const initialState = {
   filter: '',
 };
 
 export const filterReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'filter/search':
+    case TYPES.FILTER_SEARCH:
       return {
         ...state,
         filter: action.payload,
@@ -17,7 +19,7 @@ export const filterReducer = (state = initialState, action) => {
 
 export const setSearchQuery = searchQuery => {
   return {
-    type: 'filter/search',
+    type: TYPES.FILTER_SEARCH,
     payload: searchQuery,
   };
 };
