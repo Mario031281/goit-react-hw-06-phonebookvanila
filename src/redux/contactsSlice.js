@@ -10,17 +10,6 @@ const initialState = {
   ],
 };
 
-export const contactsReducer = (state = initialState.contacts, action) => {
-  switch (action.type) {
-    case TYPES.DELETE:
-      return state.filter(contact => contact.id !== action.payload);
-    case TYPES.ADD:
-      return [...state, action.payload];
-    default:
-      return state;
-  }
-};
-
 export const deleteContact = id => {
   return {
     type: TYPES.DELETE,
@@ -32,4 +21,14 @@ export const addContact = values => {
     type: TYPES.ADD,
     payload: { ...values, id: nanoid() },
   };
+};
+export const contactsReducer = (state = initialState.contacts, action) => {
+  switch (action.type) {
+    case TYPES.DELETE:
+      return state.filter(contact => contact.id !== action.payload);
+    case TYPES.ADD:
+      return [...state, action.payload];
+    default:
+      return state;
+  }
 };
