@@ -22,6 +22,7 @@ export const addContact = values => {
     payload: { ...values, id: nanoid() },
   };
 };
+
 export const contactsReducer = (state = initialState.contacts, action) => {
   switch (action.type) {
     case TYPES.DELETE:
